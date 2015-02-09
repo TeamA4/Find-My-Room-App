@@ -1,0 +1,92 @@
+# Find-My-Room-App
+package com.example.findmyroom;
+
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+public class Scanner extends Activity {
+
+	static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
+
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_scanner);
+	}
+	
+	public void scanQR(View v) {
+	
+		      try {
+		
+		            //start the scanning activity from the com.google.zxing.client.android.SCAN intent
+		
+		            Intent intent = new Intent(ACTION_SCAN);
+		
+		            intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+		
+		            startActivityForResult(intent, 0);
+		
+		       } catch (ActivityNotFoundException anfe) {
+		
+		            //on catch, show the download dialog
+		
+		            ((Toast) showDialog(Scanner.this, "No Scanner Found", "Download a scanner code activity?", "Yes", "No")).show();
+		
+		        }
+		
+		    }
+	
+	
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		
+		    if (requestCode == 0) {
+		
+		        if (resultCode == RESULT_OK) {
+		
+		            String contents = intent.getStringExtra("SCAN_RESULT");
+	
+		            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+		
+		            Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
+		
+		            toast.show();
+		
+		        }
+		
+		    }
+		
+		}
+
+	private Object showDialog(Scanner scanner, String string, String string2,
+			String string3, String string4) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.scanner, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+}
