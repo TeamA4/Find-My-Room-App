@@ -2,12 +2,13 @@
 package com.example.findmyroom;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class Scanner extends Activity {
@@ -19,57 +20,45 @@ public class Scanner extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scanner);
+		
+		Button ButtonBack = (Button) findViewById(R.id.ButtonBack);
+		ButtonBack.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(v.getContext(), MainActivity.class);
+				startActivityForResult(intent,0);
+			}
+			
+		});
+		
+		
+		
+		
 	}
 	
 	public void scanQR(View v) {
-	
-		      try {
-		
-		            //start the scanning activity from the com.google.zxing.client.android.SCAN intent
-		
-		            Intent intent = new Intent(ACTION_SCAN);
-		
-		            intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-		
-		            startActivityForResult(intent, 0);
-		
-		       } catch (ActivityNotFoundException anfe) {
-		
-		            //on catch, show the download dialog
-		
-		            ((Toast) showDialog(Scanner.this, "No Scanner Found", "Download a scanner code activity?", "Yes", "No")).show();
-		
-		        }
-		
-		    }
-	
-	
+	      {
+	            //start the scanning activity from the com.google.zxing.client.android.SCAN intent
+	            Intent intent = new Intent(ACTION_SCAN);
+	            intent.putExtra("QR_CODE_MODE","SCAN_MODE" );
+	            startActivityForResult(intent, 0);
+	        } }
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		
-		    if (requestCode == 0) {
-		
-		        if (resultCode == RESULT_OK) {
-		
-		            String contents = intent.getStringExtra("SCAN_RESULT");
-	
-		            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-		
-		            Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
-		
-		            toast.show();
-		
-		        }
-		
-		    }
-		
-		}
-
-	private Object showDialog(Scanner scanner, String string, String string2,
-			String string3, String string4) {
-		// TODO Auto-generated method stub
-		return null;
+	    if (requestCode == 0) {
+	        if (resultCode == RESULT_OK) {
+	            String contents = intent.getStringExtra("SCAN_RESULT");
+	            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+	            Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
+	            toast.show();
+	        }
+	    }
 	}
+	
+
+	
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
