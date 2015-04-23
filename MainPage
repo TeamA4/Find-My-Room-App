@@ -1,5 +1,5 @@
 # Find-My-Room-App
-package com.example.findmyroom;
+package com.example.findmyroomapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,42 +11,44 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
-
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		Button button1 = (Button) findViewById(R.id.button1);
+		//Set button variable 
+		Button button1 = (Button) findViewById(R.id.b1);
+		//set onclick listener 
 		button1.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				
+				//intention to take user to the intented page
 				Intent intent = new Intent(v.getContext(), UserGuide.class);
 				startActivityForResult(intent,0);
 			}
 			
 		});
-		
+		//Set button variable 
 		Button button2 = (Button) findViewById(R.id.button2);
+		//set onclick listener 
 		button2.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				
+				//intention to take user to the intented page
 				Intent intent = new Intent(v.getContext(), UoBTools.class);
 				startActivityForResult(intent,0);
 			}
 			
 		});
-		
+		//Set button variable 
 		Button button3 = (Button) findViewById(R.id.button3);
+		//set onclick listener 
 		button3.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				
+				//intention to take user to the intented page
 				Intent intent = new Intent(v.getContext(), Scanner.class);
 				startActivityForResult(intent,0);
 			}
 			
 		});
-		
 		
 		
 	}
