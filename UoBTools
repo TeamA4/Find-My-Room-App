@@ -1,5 +1,5 @@
 # Find-My-Room-App
-package com.example.findmyroom;
+package com.example.findmyroomapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,46 +17,53 @@ public class UoBTools extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_uo_btools);
-		
-		
+		//Set button variable 
 		Button button6 = (Button) findViewById(R.id.button6);
+		//set onclick listener 
         button6.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+            	//create intention
                 Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
+                //onclick will open up the url link
                 myWebLink.setData(Uri.parse("https://blackboard.brad.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_14_1"));
                     startActivity(myWebLink);
              }
         });
-		
+      //Set button variable 
 		Button button7 = (Button) findViewById(R.id.button7);
+		//set onclick listener 
         button7.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+            	//create intention
                 Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
+              //onclick will open up the url link
                 myWebLink.setData(Uri.parse("http://internal.bradford.ac.uk/"));
                     startActivity(myWebLink);
              }
         });
-		
+      //Set button variable 
 		Button button8 = (Button) findViewById(R.id.button8);
+		//set onclick listener 
         button8.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+            	//create intention
                 Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
+              //onclick will open up the url link
                 myWebLink.setData(Uri.parse("http://www.bradford.ac.uk/it-services/students/email/"));
                     startActivity(myWebLink);
              }
         });
-		
+        //Set button variable 
 		Button back = (Button) findViewById(R.id.back);
+		//set onclick listener 
 		back.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				
+				//create intention and takes you to the intended page.
 				Intent intent = new Intent(v.getContext(), MainActivity.class);
 				startActivityForResult(intent,0);
 			}
 			
 		});
-		
-		
 		
 		
 	}
