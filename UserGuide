@@ -1,8 +1,11 @@
 # Find-My-Room-App
-package com.example.findmyroom;
+package com.example.findmyroomapp;
+
+
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +19,6 @@ public class UserGuide extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_guide);
-		
-		
 		Button back = (Button) findViewById(R.id.back);
 		back.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
@@ -27,6 +28,19 @@ public class UserGuide extends Activity {
 			}
 			
 		});
+		//Set button
+		Button buttondr = (Button) findViewById(R.id.buttondr);
+		//set onclick listener 
+        buttondr.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	//create intention for onclick action
+                Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
+                //onclick will open the url page.
+                myWebLink.setData(Uri.parse("http://market.android.com/details?id=la.droid.qr"));
+                    startActivity(myWebLink);
+             }
+        });
+		
 	}
 
 	@Override
