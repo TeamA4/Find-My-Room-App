@@ -1,31 +1,51 @@
 # Find-My-Room-App
-package com.example.findmyroom;
+package com.example.findmyroomapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class Scanner extends Activity {
 
-	static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
-
+	protected static final int ACTIVITY_RESULT_QR_DRDROID = 0;
+	Button scan;
+	TextView report;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scanner);
-		
+		//Set button
 		Button ButtonBack = (Button) findViewById(R.id.ButtonBack);
+		//create onclick listener for the button
 		ButtonBack.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				
+				//set intention for the button on click.
 				Intent intent = new Intent(v.getContext(), MainActivity.class);
+				startActivityForResult(intent,0);
+			}
+			
+		});
+		
+		
+		//Set button
+		Button buttonSet = (Button) findViewById(R.id.buttonreset);
+		//create onclick listener for the button
+		buttonSet.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				//set intention for the button on click.
+				Intent intent = new Intent(v.getContext(), Scanner.class);
 				startActivityForResult(intent,0);
 			}
 			
@@ -34,31 +54,83 @@ public class Scanner extends Activity {
 		
 		
 		
+        
+        //set text variable for the place of results.
+        report = (TextView) findViewById(R.id.textView1);
+        //set button for the scanner.
+		scan = (Button) findViewById(R.id.scanner);
+		
+		  TextView t2 = (TextView) findViewById(R.id.textView1);
+		    t2.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		scan.setOnClickListener(new View.OnClickListener() {
+			
+			
+			
+			
+			
+			@Override
+			public void onClick(View arg0) {
+				//set intention to download the droid scanner 
+				Intent i = new Intent("la.droid.qr.scan");
+				
+				try {
+					
+					startActivityForResult(i, ACTIVITY_RESULT_QR_DRDROID);
+				} 
+				catch (ActivityNotFoundException activity) {
+					
+					
+				}
+			}
+		});
+	}	
+ 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		//created an if statment if the scanner is present then open it up.
+		if( ACTIVITY_RESULT_QR_DRDROID == requestCode 
+				&& data != null && data.getExtras() != null ) {
+			String result = data.getExtras().getString("la.droid.qr.result");
+			//getting and setting the results from the scanner.
+			report.setText(result);
+			report.setVisibility(View.VISIBLE);
+		}
 	}
 	
-	public void scanQR(View v) {
-	      {
-	            //start the scanning activity from the com.google.zxing.client.android.SCAN intent
-	            Intent intent = new Intent(ACTION_SCAN);
-	            intent.putExtra("QR_CODE_MODE","SCAN_MODE" );
-	            startActivityForResult(intent, 0);
-	        } }
-	
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-	    if (requestCode == 0) {
-	        if (resultCode == RESULT_OK) {
-	            String contents = intent.getStringExtra("SCAN_RESULT");
-	            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-	            Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
-	            toast.show();
-	        }
-	    }
+	protected static void qrDroidRequired(final MainActivity activity) {
+		//implemented an alert dialog
+		AlertDialog.Builder AlertBox = new AlertDialog.Builder(activity);
+		//set message 
+		AlertBox.setMessage("QRDroid Missing");
+		//give option if alert comes up
+		AlertBox.setNegativeButton("From Market", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				//takes you to the market place to download the qr droid scanner
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, 
+					Uri.parse("http://market.android.com/details?id=la.droid.qr")));
+			}
+		});
+		//another option to cancel 
+		AlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				
+				
+				dialog.cancel();
+			}
+		});
+		
+		AlertBox.create().show();
 	}
+		
+		
 	
-
-	
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
